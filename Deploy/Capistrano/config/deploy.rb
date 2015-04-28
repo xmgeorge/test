@@ -1,8 +1,8 @@
 # Deployment Recipe
-set :application, "JewelleryApp"
-set :repository, "git@github.com:Banyan-Tree-Ventures/JewelleryApp.git"
+set :application, "Americash"
+set :repository, "git@github.com:xmgeorge/test.git"
 #
-set :user, "jenkins"
+set :user, "test"
 #
 set :scm, :git
 # # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
@@ -16,15 +16,9 @@ set :normalize_asset_timestamps, false
 
 desc "After update_code, links the folders from the shared directory"
 after "deploy:update_code" do
-run "ln -nfs #{shared_path}/Proxy #{release_path}/ZendApp/module/Application/src/Application/Model/Proxy"
-run "ln -nfs #{shared_path}/uploads #{release_path}/ZendApp/public/uploads"
-run "rm -rf #{release_path}/ZendApp/vendor"
-run "ln -nfs #{shared_path}/vendor #{release_path}/ZendApp/vendor"
-run "cd #{release_path}/ZendApp && php composer.phar update"
-run "ln -nfs #{shared_path}/db.local.php #{release_path}/ZendApp/config/autoload/db.local.php"
-run "ln -nfs #{shared_path}/config.local.php #{release_path}/ZendApp/config/autoload/config.local.php"
-run "ln -nfs #{shared_path}/session.local.php #{release_path}/ZendApp/config/autoload/session.local.php"
-run "ln -nfs #{shared_path}/assets #{release_path}/ZendApp/public/assets"
+#run "ln -nfs #{shared_path}/Proxy #{release_path}/ZendApp/module/Application/src/Application/Model/Proxy"
+#run "ln -nfs #{shared_path}/uploads #{release_path}/ZendApp/public/uploads"
+#run "cd #{release_path}/ZendApp && php composer.phar update"
 end
 
 desc "Setups the basic folder structure for a first deployment"
@@ -33,8 +27,6 @@ after "deploy:setup" do
   # config/ will store our configuration files
   # system/ will store the maintenance page (for now)
   run "mkdir -p #{shared_path}/{system,assets} #{shared_path}/log #{shared_path}/tmp #{shared_path}/Proxy #{shared_path}/uploads/resources/activity #{shared_path}/uploads/resources/organizations #{shared_path}/uploads/resources/profilepicture #{shared_path}/uploads/recipe_step_assets #{shared_path}/uploads/recipe #{shared_path}/uploads/recipe/{large_high,large_low,thumbnail_high,thumbnail_low} #{shared_path}/uploads/featured"
-  run "chmod -R 777 #{shared_path}/Proxy"
-  run "chmod -R 777 #{shared_path}/uploads"
   run "chmod -R 777 #{shared_path}/assets"
 
 end
@@ -50,13 +42,13 @@ namespace :deploy do
   desc "Afer every deployment, send a notification"
   after "deploy", "differences_since_last_deploy", "deploy:cleanup"
   
-  desc "Will send a notification with details on the release"
-  task :notify do
+ # desc "Will send a notification with details on the release"
+ # task :notify do
     # args = ['--pretty=format:"Commit %h by %an, %ar%n%s%n"']
     # set :extra_information, capture("cd #{current_path}; #{source.command} log #{args.join(' ')} #{previous_revision}..#{current_revision}")
-    show.me
+  #  show.me
 #    Notifier.deliver_notification_email(self)
-  end
+#  end
 
 end
 
